@@ -1216,7 +1216,7 @@ bool UIControl::IsPointInside(const Vector2& _point, bool expandWithFocus /* = f
 
     if (InputSystem::Instance()->GetMouseCaptureMode() == InputSystem::eMouseCaptureMode::PINING)
     {
-        const Size2i& virtScreenSize = VirtualCoordinatesSystem::Instance()->GetVirtualScreenSize();
+        const Size2f& virtScreenSize = VirtualCoordinatesSystem::Instance()->GetVirtualScreenSize();
         point.x = virtScreenSize.dx / 2.f;
         point.y = virtScreenSize.dy / 2.f;
     }

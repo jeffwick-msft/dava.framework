@@ -321,8 +321,8 @@ DeviceInfo::NetworkInfo DeviceInfoPrivate::GetNetworkInfo()
 
 void DeviceInfoPrivate::InitializeScreenInfo()
 {
-    screenInfo.width = ::GetSystemMetrics(SM_CXSCREEN);
-    screenInfo.height = ::GetSystemMetrics(SM_CYSCREEN);
+    screenInfo.width = static_cast<float32>(::GetSystemMetrics(SM_CXSCREEN));
+    screenInfo.height = static_cast<float32>(::GetSystemMetrics(SM_CYSCREEN));
     screenInfo.scale = 1;
 }
 

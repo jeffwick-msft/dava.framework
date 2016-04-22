@@ -529,11 +529,11 @@ Rect PrivateWebViewWinUAP::VirtualToWindow(const Rect& srcRect) const
     rect += coordSystem->GetPhysicalDrawOffset();
 
     // 2. map physical to window
-    const float32 scaleFactor = core->GetScreenScaleFactor();
-    rect.x /= scaleFactor;
-    rect.y /= scaleFactor;
-    rect.dx /= scaleFactor;
-    rect.dy /= scaleFactor;
+    const float64 scaleFactor = core->GetScreenScaleFactor();
+    rect.x = static_cast<float32>(rect.x / scaleFactor);
+    rect.y = static_cast<float32>(rect.y / scaleFactor);
+    rect.dx = static_cast<float32>(rect.dx / scaleFactor);
+    rect.dy = static_cast<float32>(rect.dy / scaleFactor);
     return rect;
 }
 

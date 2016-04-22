@@ -453,8 +453,8 @@ DisplayMode Core::FindBestMode(const DisplayMode& requestedMode)
 
     if (bestMatchMode.refreshRate == -1) // haven't found any mode
     {
-        int32 minDiffWidth = 0;
-        int32 minDiffHeight = 0;
+        float32 minDiffWidth = 0;
+        float32 minDiffHeight = 0;
         float32 requestedAspect = (requestedMode.height > 0 ? float32(requestedMode.width) / float32(requestedMode.height) : 1.0f);
         float32 minDiffAspect = 0;
 
@@ -462,8 +462,8 @@ DisplayMode Core::FindBestMode(const DisplayMode& requestedMode)
         {
             DisplayMode& availableMode = *it;
 
-            int32 diffWidth = abs(availableMode.width - requestedMode.width);
-            int32 diffHeight = abs(availableMode.height - requestedMode.height);
+            float32 diffWidth = abs(availableMode.width - requestedMode.width);
+            float32 diffHeight = abs(availableMode.height - requestedMode.height);
 
             float32 availableAspect = (availableMode.height > 0 ? float32(availableMode.width) / float32(availableMode.height) : 1.0f);
             float32 diffAspect = fabsf(availableAspect - requestedAspect);
@@ -510,7 +510,7 @@ DisplayMode Core::FindBestMode(const DisplayMode& requestedMode)
 
     if (bestMatchMode.refreshRate == -1) // haven't found any mode
     {
-        int maxRes = 0;
+        float32 maxRes = 0;
         for (List<DisplayMode>::iterator it = availableDisplayModes.begin(); it != availableDisplayModes.end(); ++it)
         {
             DisplayMode& availableMode = *it;
@@ -529,7 +529,7 @@ DisplayMode Core::FindBestMode(const DisplayMode& requestedMode)
 
 DisplayMode Core::GetCurrentDisplayMode()
 {
-    return DisplayMode(static_cast<int32>(screenMetrics.width), static_cast<int32>(screenMetrics.height), DisplayMode::DEFAULT_BITS_PER_PIXEL, DisplayMode::DEFAULT_DISPLAYFREQUENCY);
+    return DisplayMode(screenMetrics.width, screenMetrics.height, DisplayMode::DEFAULT_BITS_PER_PIXEL, DisplayMode::DEFAULT_DISPLAYFREQUENCY);
 }
 
 void Core::Quit()
@@ -884,13 +884,13 @@ void Core::InitWindowSize(void* nativeView, float32 width, float32 height, float
     screenMetrics.initialized = true;
 
     rendererParams.window = screenMetrics.nativeView;
-    rendererParams.width = static_cast<int32>(screenMetrics.width * screenMetrics.scaleX * screenMetrics.userScale);
-    rendererParams.height = static_cast<int32>(screenMetrics.height * screenMetrics.scaleY * screenMetrics.userScale);
+    rendererParams.width = screenMetrics.width * screenMetrics.scaleX * screenMetrics.userScale;
+    rendererParams.height = screenMetrics.height * screenMetrics.scaleY * screenMetrics.userScale;
     rendererParams.scaleX = screenMetrics.scaleX * screenMetrics.userScale;
     rendererParams.scaleY = screenMetrics.scaleY * screenMetrics.userScale;
 
     VirtualCoordinatesSystem* virtSystem = VirtualCoordinatesSystem::Instance();
-    virtSystem->SetInputScreenAreaSize(static_cast<int32>(screenMetrics.width), static_cast<int32>(screenMetrics.height));
+    virtSystem->SetInputScreenAreaSize(screenMetrics.width, screenMetrics.height);
     virtSystem->SetPhysicalScreenSize(static_cast<int32>(rendererParams.width), static_cast<int32>(rendererParams.height));
     virtSystem->EnableReloadResourceOnResize(true);
 }
@@ -922,8 +922,8 @@ void Core::ApplyWindowSize()
 {
     DVASSERT(Renderer::IsInitialized());
     screenMetrics.screenMetricsModified = false;
-    int32 physicalWidth = static_cast<int32>(screenMetrics.width * screenMetrics.scaleX * screenMetrics.userScale);
-    int32 physicalHeight = static_cast<int32>(screenMetrics.height * screenMetrics.scaleY * screenMetrics.userScale);
+    float32 physicalWidth = screenMetrics.width * screenMetrics.scaleX * screenMetrics.userScale;
+    float32 physicalHeight = screenMetrics.height * screenMetrics.scaleY * screenMetrics.userScale;
 
     // render reset
     rhi::ResetParam params;
@@ -935,8 +935,8 @@ void Core::ApplyWindowSize()
     Renderer::Reset(params);
 
     VirtualCoordinatesSystem* virtSystem = VirtualCoordinatesSystem::Instance();
-    virtSystem->SetInputScreenAreaSize(static_cast<int32>(screenMetrics.width), static_cast<int32>(screenMetrics.height));
-    virtSystem->SetPhysicalScreenSize(physicalWidth, physicalHeight);
+    virtSystem->SetInputScreenAreaSize(screenMetrics.width, screenMetrics.height);
+    virtSystem->SetPhysicalScreenSize(static_cast<int32>(physicalWidth), static_cast<int32>(physicalHeight));
     virtSystem->ScreenSizeChanged();
 }
 
@@ -976,7 +976,7 @@ void Core::SetScreenScaleMultiplier(float32 multiplier)
     }
 }
 
-float32 Core::GetScreenScaleFactor() const
+float64 Core::GetScreenScaleFactor() const
 {
     return (DeviceInfo::GetScreenInfo().scale * GetScreenScaleMultiplier());
 }

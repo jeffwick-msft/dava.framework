@@ -50,9 +50,9 @@ struct SerializedGeneralInfo
 {
     uint32 platfromType;
     uint32 gpuFamily;
-    int32 screenWidth;
-    int32 screenHeight;
-    int32 screenScale;
+    float32 screenWidth;
+    float32 screenHeight;
+    float64 screenScale;
     Array<char8, 16> platform;
     Array<char8, 16> version;
     Array<char8, 16> manufacturer;
@@ -61,7 +61,7 @@ struct SerializedGeneralInfo
     Array<char8, 32> name;
 };
 // make sure that sizeof SerializedGeneralInfo with arrays like char8 arr[] is same as witn std::array
-static_assert(196 == sizeof(SerializedGeneralInfo), "invalid SerializedGeneralInfo size.");
+static_assert(200 == sizeof(SerializedGeneralInfo), "invalid SerializedGeneralInfo size.");
 
 struct SerializedIfAddress
 {
@@ -215,7 +215,7 @@ size_t PeerDescription::Deserialize(const void* srcBuffer, size_t buflen)
     const SerializedGeneralInfo* general = reinterpret_cast<const SerializedGeneralInfo*>(header + 1);
     temp.platformType = IntToPlatform(general->platfromType);
     temp.gpuFamily = IntToGPUFamily(general->gpuFamily);
-    temp.screenInfo = DeviceInfo::ScreenInfo(general->screenWidth, general->screenHeight, static_cast<float32>(general->screenScale));
+    temp.screenInfo = DeviceInfo::ScreenInfo(general->screenWidth, general->screenHeight, general->screenScale);
     temp.platform = general->platform.data();
     temp.version = general->version.data();
     temp.manufacturer = general->manufacturer.data();

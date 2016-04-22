@@ -157,8 +157,8 @@ dx9_Reset(const ResetParam& param)
         || interval != _DX9_PresentParam.PresentationInterval
         )
     {
-        _DX9_PresentParam.BackBufferWidth = param.width;
-        _DX9_PresentParam.BackBufferHeight = param.height;
+        _DX9_PresentParam.BackBufferWidth = static_cast<UINT>(param.width);
+        _DX9_PresentParam.BackBufferHeight = static_cast<UINT>(param.height);
         _DX9_PresentParam.Windowed = !param.fullScreen;
         _DX9_PresentParam.PresentationInterval = interval;
 
@@ -187,8 +187,8 @@ void _InitDX9()
     {
         HRESULT hr;
         HWND wnd = (HWND)_DX9_InitParam.window;
-        unsigned backbuf_width = _DX9_InitParam.width;
-        unsigned backbuf_height = _DX9_InitParam.height;
+        int backbuf_width = static_cast<int>(_DX9_InitParam.width);
+        int backbuf_height = static_cast<int>(_DX9_InitParam.height);
         bool use_vsync = _DX9_InitParam.vsyncEnabled;
         D3DADAPTER_IDENTIFIER9 info = { 0 };
         D3DCAPS9 caps;

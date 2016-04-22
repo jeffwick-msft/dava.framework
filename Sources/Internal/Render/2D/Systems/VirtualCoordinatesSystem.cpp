@@ -82,7 +82,7 @@ void VirtualCoordinatesSystem::ScreenSizeChanged()
         }
         else
         {
-            virtualScreenSize.dy = int32(Round(physicalScreenSize.dy * physicalToVirtual));
+            virtualScreenSize.dy = Round(physicalScreenSize.dy * physicalToVirtual);
         }
 
         for (int32 i = 0; i < int32(allowedSizes.size()); i++)
@@ -106,7 +106,7 @@ void VirtualCoordinatesSystem::ScreenSizeChanged()
         }
         else
         {
-            virtualScreenSize.dx = int32(Round(physicalScreenSize.dx * physicalToVirtual));
+            virtualScreenSize.dx = Round(physicalScreenSize.dx * physicalToVirtual);
         }
 
         for (int32 i = 0; i < int32(allowedSizes.size()); i++)
@@ -170,14 +170,14 @@ void VirtualCoordinatesSystem::SetPhysicalScreenSize(int32 width, int32 height)
     physicalSizeChanged.Emit(physicalScreenSize);
 }
 
-void VirtualCoordinatesSystem::SetVirtualScreenSize(int32 width, int32 height)
+void VirtualCoordinatesSystem::SetVirtualScreenSize(float32 width, float32 height)
 {
     requestedVirtualScreenSize.dx = virtualScreenSize.dx = width;
     requestedVirtualScreenSize.dy = virtualScreenSize.dy = height;
     wasScreenResized = true;
 }
 
-void VirtualCoordinatesSystem::SetInputScreenAreaSize(int32 width, int32 height)
+void VirtualCoordinatesSystem::SetInputScreenAreaSize(float32 width, float32 height)
 {
     inputAreaSize.dx = width;
     inputAreaSize.dy = height;
@@ -192,7 +192,7 @@ void VirtualCoordinatesSystem::SetProportionsIsFixed(bool needFixed)
     wasScreenResized = true;
 }
 
-void VirtualCoordinatesSystem::RegisterAvailableResourceSize(int32 width, int32 height, const String& resourcesFolderName)
+void VirtualCoordinatesSystem::RegisterAvailableResourceSize(float32 width, float32 height, const String& resourcesFolderName)
 {
     VirtualCoordinatesSystem::ResourceSpaceSize newSize;
     newSize.width = width;

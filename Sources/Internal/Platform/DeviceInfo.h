@@ -45,9 +45,9 @@ public:
 
     struct ScreenInfo
     {
-        int32 width;
-        int32 height;
-        float32 scale;
+        float32 width;
+        float32 height;
+        float64 scale;
 
         ScreenInfo()
         {
@@ -56,7 +56,7 @@ public:
             scale = 1;
         }
 
-        ScreenInfo(int32 w, int32 h, float32 _scale)
+        ScreenInfo(float32 w, float32 h, float64 _scale)
         {
             width = w;
             height = h;

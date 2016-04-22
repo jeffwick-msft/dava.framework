@@ -369,8 +369,8 @@ void gles2_Uninitialize()
 static void
 gles2_Reset(const ResetParam& param)
 {
-    _GLES2_DefaultFrameBuffer_Width = param.width;
-    _GLES2_DefaultFrameBuffer_Height = param.height;
+    _GLES2_DefaultFrameBuffer_Width = static_cast<GLint>(param.width);
+    _GLES2_DefaultFrameBuffer_Height = static_cast<GLint>(param.height);
 #if defined(__DAVAENGINE_ANDROID__)
     android_gl_reset(param.window);
 #elif defined(__DAVAENGINE_IPHONE__)

@@ -273,8 +273,8 @@ void _InitDX11()
     flags |= D3D11_CREATE_DEVICE_PREVENT_INTERNAL_THREADING_OPTIMIZATIONS;
     #endif
 
-    swapchain_desc.BufferDesc.Width = _DX11_InitParam.width;
-    swapchain_desc.BufferDesc.Height = _DX11_InitParam.height;
+    swapchain_desc.BufferDesc.Width = static_cast<UINT>(_DX11_InitParam.width);
+    swapchain_desc.BufferDesc.Height = static_cast<UINT>(_DX11_InitParam.height);
     swapchain_desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
     swapchain_desc.BufferDesc.RefreshRate.Numerator = 0;
     swapchain_desc.BufferDesc.RefreshRate.Denominator = 0;
@@ -342,8 +342,8 @@ void _InitDX11()
 
         D3D11_TEXTURE2D_DESC ds_desc = { 0 };
 
-        ds_desc.Width = _DX11_InitParam.width;
-        ds_desc.Height = _DX11_InitParam.height;
+        ds_desc.Width = static_cast<UINT>(_DX11_InitParam.width);
+        ds_desc.Height = static_cast<UINT>(_DX11_InitParam.height);
         ds_desc.MipLevels = 1;
         ds_desc.ArraySize = 1;
         ds_desc.Format = (_D3D11_FeatureLevel == D3D_FEATURE_LEVEL_11_0) ? DXGI_FORMAT_D32_FLOAT : DXGI_FORMAT_D24_UNORM_S8_UINT;

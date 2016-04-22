@@ -138,8 +138,8 @@ bool CoreWin32Platform::CreateWin32Window(HINSTANCE hInstance)
     RECT clientSize;
     clientSize.top = 0;
     clientSize.left = 0;
-    clientSize.right = currentMode.width;
-    clientSize.bottom = currentMode.height;
+    clientSize.right = static_cast<int32>(currentMode.width);
+    clientSize.bottom = static_cast<int32>(currentMode.height);
 
     ULONG style = WINDOWED_STYLE | WS_CLIPCHILDREN;
 
@@ -179,13 +179,13 @@ bool CoreWin32Platform::CreateWin32Window(HINSTANCE hInstance)
     fullscreenMode = GetCurrentDisplayMode(); //FindBestMode(fullscreenMode);
     if (options)
     {
-        windowedMode.width = options->GetInt32("width");
-        windowedMode.height = options->GetInt32("height");
+        windowedMode.width = options->GetFloat("width");
+        windowedMode.height = options->GetFloat("height");
         windowedMode.bpp = options->GetInt32("bpp");
 
         // get values from config in case if they are available
-        fullscreenMode.width = options->GetInt32("fullscreen.width", fullscreenMode.width);
-        fullscreenMode.height = options->GetInt32("fullscreen.height", fullscreenMode.height);
+        fullscreenMode.width = options->GetFloat("fullscreen.width", fullscreenMode.width);
+        fullscreenMode.height = options->GetFloat("fullscreen.height", fullscreenMode.height);
         fullscreenMode.bpp = windowedMode.bpp;
 
         fullscreenMode = FindBestMode(fullscreenMode);
@@ -202,12 +202,12 @@ bool CoreWin32Platform::CreateWin32Window(HINSTANCE hInstance)
     // Init application with positioned window
     {
         currentMode = windowedMode;
-        Core::Instance()->InitWindowSize(reinterpret_cast<void*>(hWindow), static_cast<float32>(currentMode.width), static_cast<float32>(currentMode.height), 1.f, 1.f);
+        Core::Instance()->InitWindowSize(reinterpret_cast<void*>(hWindow), currentMode.width, currentMode.height, 1.f, 1.f);
 
         clientSize.top = 0;
         clientSize.left = 0;
-        clientSize.right = currentMode.width;
-        clientSize.bottom = currentMode.height;
+        clientSize.right = static_cast<int32>(currentMode.width);
+        clientSize.bottom = static_cast<int32>(currentMode.height);
 
         AdjustWindowRect(&clientSize, style, FALSE);
 
@@ -248,7 +248,7 @@ bool CoreWin32Platform::CreateWin32Window(HINSTANCE hInstance)
     }
 
     VirtualCoordinatesSystem::Instance()->SetInputScreenAreaSize(currentMode.width, currentMode.height);
-    VirtualCoordinatesSystem::Instance()->SetPhysicalScreenSize(currentMode.width, currentMode.height);
+    VirtualCoordinatesSystem::Instance()->SetPhysicalScreenSize(static_cast<int32>(currentMode.width), static_cast<int32>(currentMode.height));
 
     return true;
 }
@@ -356,8 +356,8 @@ RECT CoreWin32Platform::GetWindowedRectForDisplayMode(DisplayMode& dm)
     RECT clientSize;
     clientSize.top = 0;
     clientSize.left = 0;
-    clientSize.right = dm.width;
-    clientSize.bottom = dm.height;
+    clientSize.right = static_cast<int32>(dm.width);
+    clientSize.bottom = static_cast<int32>(dm.height);
     HWND hWindow = static_cast<HWND>(GetNativeView());
     AdjustWindowRect(&clientSize, GetWindowLong(hWindow, GWL_STYLE), FALSE);
 
@@ -421,7 +421,7 @@ bool CoreWin32Platform::SetScreenMode(eScreenMode screenMode)
 
         Logger::FrameworkDebug("[RenderManagerDX9] toggle mode: %d x %d isFullscreen: %d", currentMode.width, currentMode.height, isFullscreen);
         VirtualCoordinatesSystem::Instance()->SetInputScreenAreaSize(currentMode.width, currentMode.height);
-        VirtualCoordinatesSystem::Instance()->SetPhysicalScreenSize(currentMode.width, currentMode.height);
+        VirtualCoordinatesSystem::Instance()->SetPhysicalScreenSize(static_cast<int32>(currentMode.width), static_cast<int32>(currentMode.height));
     }
     return true;
 }
@@ -438,8 +438,8 @@ void CoreWin32Platform::GetAvailableDisplayModes(List<DisplayMode>& availableDis
     while (EnumDisplaySettings(NULL, iModeNum++, &dmi))
     {
         DisplayMode mode;
-        mode.width = dmi.dmPelsWidth;
-        mode.height = dmi.dmPelsHeight;
+        mode.width = static_cast<float32>(dmi.dmPelsWidth);
+        mode.height = static_cast<float32>(dmi.dmPelsHeight);
         mode.bpp = dmi.dmBitsPerPel;
         mode.refreshRate = dmi.dmDisplayFrequency;
         ZeroMemory(&dmi, sizeof(dmi));
@@ -457,8 +457,8 @@ DisplayMode CoreWin32Platform::GetCurrentDisplayMode()
     DisplayMode mode;
     if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmi))
     {
-        mode.width = dmi.dmPelsWidth;
-        mode.height = dmi.dmPelsHeight;
+        mode.width = static_cast<float32>(dmi.dmPelsWidth);
+        mode.height = static_cast<float32>(dmi.dmPelsHeight);
         mode.bpp = dmi.dmBitsPerPel;
         mode.refreshRate = dmi.dmDisplayFrequency;
         ZeroMemory(&dmi, sizeof(dmi));

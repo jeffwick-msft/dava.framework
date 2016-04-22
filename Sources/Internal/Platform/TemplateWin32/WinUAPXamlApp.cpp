@@ -861,9 +861,9 @@ DeviceInfo::ScreenInfo WinUAPXamlApp::ObtainScreenInfo()
     DisplayInformation ^ displayInfo = DisplayInformation::GetForCurrentView();
     DisplayOrientations orientation = displayInfo->CurrentOrientation;
 
-    result.width = static_cast<int32>(coreWindow->Bounds.Width);
-    result.height = static_cast<int32>(coreWindow->Bounds.Height);
-    result.scale = static_cast<float32>(displayInfo->RawPixelsPerViewPixel);
+    result.width = static_cast<float32>(coreWindow->Bounds.Width);
+    result.height = static_cast<float32>(coreWindow->Bounds.Height);
+    result.scale = static_cast<float64>(displayInfo->RawPixelsPerViewPixel);
 
     if (DisplayOrientations::Portrait == orientation || DisplayOrientations::PortraitFlipped == orientation)
     {
@@ -1006,8 +1006,8 @@ void WinUAPXamlApp::PrepareScreenSize()
     KeyedArchive* options = Core::Instance()->GetOptions();
     if (nullptr != options)
     {
-        windowedMode.width = options->GetInt32("width", DisplayMode::DEFAULT_WIDTH);
-        windowedMode.height = options->GetInt32("height", DisplayMode::DEFAULT_HEIGHT);
+        windowedMode.width = options->GetFloat("width", DisplayMode::DEFAULT_WIDTH);
+        windowedMode.height = options->GetFloat("height", DisplayMode::DEFAULT_HEIGHT);
         windowedMode.bpp = options->GetInt32("bpp", DisplayMode::DEFAULT_BITS_PER_PIXEL);
         isFull = (0 != options->GetInt32("fullscreen", 0));
     }

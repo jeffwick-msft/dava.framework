@@ -252,11 +252,11 @@ void PrivateMovieViewWinUAP::PositionMovieView(const Rect& rectInVirtualCoordina
     controlRect += coordSystem->GetPhysicalDrawOffset();
 
     // 2. map physical to window
-    const float32 scaleFactor = core->GetScreenScaleFactor();
-    controlRect.x /= scaleFactor;
-    controlRect.y /= scaleFactor;
-    controlRect.dx /= scaleFactor;
-    controlRect.dy /= scaleFactor;
+    const float64 scaleFactor = core->GetScreenScaleFactor();
+    controlRect.x = static_cast<float32>(controlRect.x / scaleFactor);
+    controlRect.y = static_cast<float32>(controlRect.y / scaleFactor);
+    controlRect.dx = static_cast<float32>(controlRect.dx / scaleFactor);
+    controlRect.dy = static_cast<float32>(controlRect.dy / scaleFactor);
 
     // 3. set control's position and size
     nativeMovieView->MinHeight = 0.0; // Force minimum control sizes to zero to

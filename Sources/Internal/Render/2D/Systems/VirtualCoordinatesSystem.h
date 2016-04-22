@@ -48,8 +48,8 @@ class VirtualCoordinatesSystem : public Singleton<VirtualCoordinatesSystem>
             , toPhysical(0)
         {
         }
-        int32 width;
-        int32 height;
+        float32 width;
+        float32 height;
         String folderName;
         float32 toVirtual;
         float32 toPhysical;
@@ -59,12 +59,12 @@ public:
     VirtualCoordinatesSystem();
     virtual ~VirtualCoordinatesSystem(){};
 
-    void SetVirtualScreenSize(int32 width, int32 height);
+    void SetVirtualScreenSize(float32 width, float32 height);
     void SetPhysicalScreenSize(int32 width, int32 height);
-    void SetInputScreenAreaSize(int32 width, int32 height);
+    void SetInputScreenAreaSize(float32 width, float32 height);
 
-    inline const Size2i& GetVirtualScreenSize() const;
-    inline const Size2i& GetRequestedVirtualScreenSize() const;
+    inline const Size2f& GetVirtualScreenSize() const;
+    inline const Size2f& GetRequestedVirtualScreenSize() const;
     inline const Size2i& GetPhysicalScreenSize() const;
     inline const Rect& GetFullScreenVirtualRect() const;
 
@@ -108,22 +108,22 @@ public:
     void EnableReloadResourceOnResize(bool enable);
 
     void SetProportionsIsFixed(bool needFixed);
-    void RegisterAvailableResourceSize(int32 width, int32 height, const String& resourcesFolderName);
+    void RegisterAvailableResourceSize(float32 width, float32 height, const String& resourcesFolderName);
     void UnregisterAllAvailableResourceSizes();
 
     inline const Vector2& GetPhysicalDrawOffset() const;
 
     Signal<const Size2i&> physicalSizeChanged;
-    Signal<const Size2i&> virtualSizeChanged;
-    Signal<const Size2i&> inputAreaSizeChanged;
+    Signal<const Size2f&> virtualSizeChanged;
+    Signal<const Size2f&> inputAreaSizeChanged;
 
 private:
     inline Rect ConvertRect(const Rect& rect, float32 factor) const;
 
     Vector<ResourceSpaceSize> allowedSizes;
 
-    Size2i virtualScreenSize;
-    Size2i requestedVirtualScreenSize;
+    Size2f virtualScreenSize;
+    Size2f requestedVirtualScreenSize;
     Size2i physicalScreenSize;
     Rect fullVirtualScreenRect;
 
@@ -137,17 +137,17 @@ private:
     bool wasScreenResized;
     bool enabledReloadResourceOnResize;
 
-    Size2i inputAreaSize;
+    Size2f inputAreaSize;
     float32 inputScaleFactor;
     Vector2 inputOffset;
 };
 
-inline const Size2i& VirtualCoordinatesSystem::GetVirtualScreenSize() const
+inline const Size2f& VirtualCoordinatesSystem::GetVirtualScreenSize() const
 {
     return virtualScreenSize;
 }
 
-inline const Size2i& VirtualCoordinatesSystem::GetRequestedVirtualScreenSize() const
+inline const Size2f& VirtualCoordinatesSystem::GetRequestedVirtualScreenSize() const
 {
     return requestedVirtualScreenSize;
 }

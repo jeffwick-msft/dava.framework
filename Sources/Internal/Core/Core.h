@@ -184,7 +184,7 @@ public:
     virtual float32 GetScreenScaleMultiplier() const;
     virtual void SetScreenScaleMultiplier(float32 multiplier);
 
-    virtual float32 GetScreenScaleFactor() const;
+    virtual float64 GetScreenScaleFactor() const;
 
     virtual Core::eScreenOrientation GetScreenOrientation();
 

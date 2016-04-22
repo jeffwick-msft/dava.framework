@@ -45,8 +45,8 @@ namespace rhi
 struct
 InitParam
 {
-    uint32 width;
-    uint32 height;
+    float32 width;
+    float32 height;
     float32 scaleX;
     float32 scaleY;
     void* window;
@@ -75,8 +75,8 @@ InitParam
     void (*releaseContextFunc)();
 
     InitParam()
-        : width(0)
-        , height(0)
+        : width(0.f)
+        , height(0.f)
         , scaleX(1.f)
         , scaleY(1.f)
         , window(nullptr)
@@ -106,8 +106,8 @@ InitParam
 struct
 ResetParam
 {
-    uint32 width;
-    uint32 height;
+    float32 width;
+    float32 height;
     float32 scaleX;
     float32 scaleY;
     void* window;
@@ -115,8 +115,8 @@ ResetParam
     uint32 vsyncEnabled : 1;
 
     ResetParam()
-        : width(0)
-        , height(0)
+        : width(0.f)
+        , height(0.f)
         , scaleX(1.f)
         , scaleY(1.f)
         , window(nullptr)

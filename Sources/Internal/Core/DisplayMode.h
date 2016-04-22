@@ -47,7 +47,7 @@ public:
 public:
     DisplayMode() = default;
 
-    DisplayMode(int32 width_, int32 height_, int32 bpp_, int32 refreshRate_)
+    DisplayMode(float32 width_, float32 height_, int32 bpp_, int32 refreshRate_)
         : width(width_)
         , height(height_)
         , bpp(bpp_)
@@ -60,8 +60,8 @@ public:
         return (width > 0 && height > 0 && refreshRate != -1);
     }
 
-    int32 width = 0; //! width of the display mode
-    int32 height = 0; //! height of the display mode
+    float32 width = 0; //! width of the display mode
+    float32 height = 0; //! height of the display mode
     int32 bpp = 0; //! bits per pixel
     int32 refreshRate = -1; //! refresh rate of the display mode, 0 if default
 };
